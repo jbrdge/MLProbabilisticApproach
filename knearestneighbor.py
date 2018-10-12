@@ -64,7 +64,7 @@ def partition(Ac,A0,A1,A2,p,r):
 def distance(x1,y1,x2,y2):
     return np.sqrt((x2-x1)**2+(y2-y1)**2)
 
-#generate a list of data points
+#generate a list of data points, this can be based on a function as well
 mu, sigma = 0.4, 0.1 # mean and standard deviation
 a1 = list(np.random.normal(mu, sigma, 50))
 a2 = list(np.random.normal(mu, sigma, 50))
@@ -75,10 +75,26 @@ b2 = list(np.random.normal(mu, sigma, 50))
 b3 = [1.0]*50
 data= a1+b1,a2+b2,a3+b3
 
+#exhautively determines K-Nearest Neighbor Approximation for each point on the graph
+for i in list(np.linspace(-4.5,4.5,400)):
+    for j in list(np.linspace(-4.5,4.5,400)):
+        X.append(i)
+        Y.append(j)
+        KNN = klist(i,j,data)
+        for k in KNN[2]:
+            p+= k/30.
+        C.append(p)
+        p=0
+    
+fig = plt.figure(figsize=(3, 3), dpi=300)
+ax = plt.axes()
+
 fig = plt.figure()
 ax = plt.axes()
 
-ax.scatter(data[0], data[1], c=data[2], cmap='bwr',s=20);
-ax.scatter(0.4, 0.2, c='green',s=40);
-KNN = klist(0.4,0.2,data)
-ax.scatter(KNN[0], KNN[1], c='black',s=20);
+ax.scatter(X, Y, c=C, cmap='PRGn',s=1);
+fig.savefig('foo.png', bbox_inches='tight') #saves image
+#ax.scatter(data[0], data[1], c=data[2], cmap='bwr',s=20); #Plots the original dataset
+#ax.scatter(0.4, 0.2, c='green',s=40); #tests the KNN for (0.4,0.2)
+#KNN = klist(0.4,0.2,data) #KNN list for (0.4,0.2)
+#ax.scatter(KNN[0], KNN[1], c='black',s=20); #Plot KNN for (0.4,0.2)
