@@ -65,15 +65,39 @@ def distance(x1,y1,x2,y2):
     return np.sqrt((x2-x1)**2+(y2-y1)**2)
 
 #generate a list of data points, this can be based on a function as well
-mu, sigma = 0.4, 0.1 # mean and standard deviation
-a1 = list(np.random.normal(mu, sigma, 50))
-a2 = list(np.random.normal(mu, sigma, 50))
-a3 = [0.0]*50
-mu, sigma = 0.6, 0.1
-b1= list(np.random.normal(mu, sigma, 50))
-b2 = list(np.random.normal(mu, sigma, 50))
-b3 = [1.0]*50
-data= a1+b1,a2+b2,a3+b3
+mu, sigma = 1.5, .085
+e1= list(np.random.normal(mu, sigma, 50))
+e2 = list(np.random.normal(mu, sigma, 50))
+e3 = [2.0]*50
+
+f1=[]
+f2=[]
+for x in range(0,50):
+    f1.append([-1.5+2*np.cos(x*np.pi/25)])
+    f2.append([1.5+2*np.sin(x*np.pi/25)])
+f3 = [-2.0]*50
+
+g1=[]
+g2=[]
+for x in range(0,50):
+    g1.append([1.5+2*np.cos(x*np.pi/25)+4*np.sin(x*np.pi/250)])
+    g2.append([-1.5+2*np.sin(x*np.pi/25)])
+g3 = [-1.0]*50
+
+a1=[]
+a2=[]
+for x in range(0,50):
+    a1.append([1.5+2*np.cos(x*np.pi/25)])
+    a2.append([-1.5+2*np.sin(x*np.pi/25)+4*np.sin(x*np.pi/250)])
+a3 = [1.0]*50
+
+data=a1+e1+f1+g1,a2+e2+f2+g2,a3+e3+f3+g3
+#data= a1+b1+c1+d1+e1+f1,a2+b2+c2+d2+e2+f2,a3+b3+c3+d3+e3+f3
+
+X=[]
+Y=[]
+C=[]
+p=0.
 
 #exhautively determines K-Nearest Neighbor Approximation for each point on the graph
 for i in list(np.linspace(-4.5,4.5,400)):
@@ -92,9 +116,9 @@ ax = plt.axes()
 fig = plt.figure()
 ax = plt.axes()
 
-ax.scatter(X, Y, c=C, cmap='PRGn',s=1);
-fig.savefig('foo.png', bbox_inches='tight') #saves image
+ax.scatter(X, Y, c=C, cmap='PRGn',s=1); #Plots KNN Map
 #ax.scatter(data[0], data[1], c=data[2], cmap='bwr',s=20); #Plots the original dataset
 #ax.scatter(0.4, 0.2, c='green',s=40); #tests the KNN for (0.4,0.2)
 #KNN = klist(0.4,0.2,data) #KNN list for (0.4,0.2)
 #ax.scatter(KNN[0], KNN[1], c='black',s=20); #Plot KNN for (0.4,0.2)
+fig.savefig('foo.png', bbox_inches='tight') #saves image
